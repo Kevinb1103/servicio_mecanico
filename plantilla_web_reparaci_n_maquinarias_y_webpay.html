@@ -1,1073 +1,432 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServiMec & Certificaciones Industriales | Mantenimiento y Reparación</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Air Lift | Servicio Técnico Alza Hombre Santiago</title>
+    <!-- Tailwind CSS desde CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js for lightweight reactivity -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        industrial: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                            950: '#020617',
-                        },
-                        safety: {
-                            orange: '#f97316',
-                            yellow: '#eab308',
-                            amber: '#d97706',
-                        },
-                        webpay: '#005c8a',
-                    },
-                    fontFamily: {
-                        heading: ['"Chakra Petch"', 'sans-serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #f97316;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-industrial-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-safety-orange selection:text-white"
-      x-data="appData()" 
-      x-init="initApp()">
+<body class="bg-slate-900 text-slate-100 flex flex-col min-h-screen">
 
-    <!-- TOP NOTICE BAR -->
-    <div class="bg-safety-orange text-industrial-950 px-4 py-1.5 text-xs font-bold tracking-wide flex justify-between items-center shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <span class="flex items-center gap-2">
-                <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                <span>SERVICIO DE EMERGENCIA TÉCNICA 24/7 EN TERRENO</span>
-            </span>
-            <div class="hidden md:flex items-center gap-6">
-                <span class="flex items-center gap-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> <span x-text="companyPhone"></span></span>
-                <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span x-text="companyAddress"></span></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN HEADER -->
-    <header class="sticky top-0 z-40 bg-industrial-900/95 backdrop-blur border-b border-slate-800">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="bg-gradient-to-br from-safety-orange to-safety-amber p-2.5 rounded-lg shadow-lg group-hover:scale-105 transition-transform">
-                    <i data-lucide="wrench" class="w-6 h-6 text-industrial-950 font-bold"></i>
+    <!-- BARRA NAVEGACIÓN -->
+    <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo / Marca -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-500 p-2 rounded-xl text-slate-950 font-black">
+                        <i data-lucide="wrench" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-wider text-white uppercase block leading-none">AIR LIFT</span>
+                        <span class="text-xs text-amber-400 font-medium">Servicio Técnico Alza Hombre</span>
+                    </div>
                 </div>
-                <div>
-                    <span class="font-heading text-2xl font-bold tracking-wider text-white block leading-none" x-text="companyName"></span>
-                    <span class="text-xs text-slate-400 font-medium tracking-widest uppercase">Reparaciones & Certificaciones</span>
+
+                <!-- Menú Desktop -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                    <a href="#inicio" class="hover:text-amber-400 transition">Inicio</a>
+                    <a href="#servicios" class="hover:text-amber-400 transition">Catálogo de Servicios</a>
+                    <a href="#marcas" class="hover:text-amber-400 transition">Marcas</a>
+                    <a href="#contacto" class="hover:text-amber-400 transition">Contacto</a>
+                </nav>
+
+                <!-- Botón Carrito -->
+                <div class="flex items-center gap-4">
+                    <button id="cart-btn" onclick="toggleCart()" class="relative bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 transition shadow-lg shadow-amber-500/20">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span class="hidden sm:inline">Carrito</span>
+                        <span id="cart-count" class="bg-slate-950 text-amber-400 text-xs px-2 py-0.5 rounded-full font-extrabold">0</span>
+                    </button>
                 </div>
-            </a>
-
-            <!-- Navigation Links -->
-            <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
-                <a href="#inicio" class="hover:text-safety-orange transition-colors">Inicio</a>
-                <a href="#servicios" class="hover:text-safety-orange transition-colors">Servicios</a>
-                <a href="#certificaciones" class="hover:text-safety-orange transition-colors">Certificaciones</a>
-                <a href="#cotizador" class="hover:text-safety-orange transition-colors">Cotización Rápida</a>
-                <a href="#contacto" class="hover:text-safety-orange transition-colors">Contacto</a>
-            </nav>
-
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-3">
-                <!-- Cart Button -->
-                <button @click="isCartOpen = true" class="relative bg-industrial-800 hover:bg-slate-700 text-slate-200 p-2.5 rounded-xl border border-slate-700 transition flex items-center gap-2">
-                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                    <span class="hidden sm:inline text-xs font-semibold">Carrito</span>
-                    <template x-if="cartTotalItems > 0">
-                        <span class="absolute -top-2 -right-2 bg-safety-orange text-industrial-950 text-xs font-extrabold w-5 h-5 rounded-full flex items-center justify-center animate-bounce" x-text="cartTotalItems"></span>
-                    </template>
-                </button>
-
-                <!-- WhatsApp Direct CTA -->
-                <a :href="'https://wa.me/' + companyWhatsapp + '?text=Hola,%20me%20gustaria%20consultar%20por%20sus%20servicios%20de%20maquinaria'" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-900/20">
-                    <i data-lucide="message-square" class="w-4 h-4"></i>
-                    <span class="hidden sm:inline">WhatsApp Directo</span>
-                </a>
-
-                <!-- Mobile Menu Button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-lg bg-industrial-800 text-slate-300">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
             </div>
-        </div>
-
-        <!-- Mobile Navigation Drawer -->
-        <div x-show="mobileMenuOpen" x-transition class="lg:hidden bg-industrial-800 border-b border-slate-700 px-4 py-4 space-y-3">
-            <a href="#inicio" @click="mobileMenuOpen = false" class="block py-2 text-slate-200 hover:text-safety-orange">Inicio</a>
-            <a href="#servicios" @click="mobileMenuOpen = false" class="block py-2 text-slate-200 hover:text-safety-orange">Servicios</a>
-            <a href="#certificaciones" @click="mobileMenuOpen = false" class="block py-2 text-slate-200 hover:text-safety-orange">Certificaciones</a>
-            <a href="#cotizador" @click="mobileMenuOpen = false" class="block py-2 text-slate-200 hover:text-safety-orange">Cotización Rápida</a>
-            <a href="#contacto" @click="mobileMenuOpen = false" class="block py-2 text-slate-200 hover:text-safety-orange">Contacto</a>
         </div>
     </header>
 
-    <main class="flex-grow">
-        <!-- HERO SECTION -->
-        <section id="inicio" class="relative py-20 lg:py-28 overflow-hidden bg-gradient-to-b from-industrial-950 via-industrial-900 to-industrial-800 border-b border-slate-800">
-            <!-- Visual Overlay Grids -->
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-25"></div>
-
-            <div class="container mx-auto px-4 relative z-10">
-                <div class="grid lg:grid-cols-12 gap-12 items-center">
-                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-safety-orange/10 border border-safety-orange/30 text-safety-orange text-xs font-semibold uppercase tracking-wider">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                            <span>Líderes en Certificación y Mecánica Pesada</span>
-                        </div>
-                        <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
-                            Mantenimiento, Reparación y <span class="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-safety-yellow">Certificación Industrial</span>
-                        </h1>
-                        <p class="text-slate-300 text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                            Maximizamos la disponibilidad de tu flota con diagnósticos avanzados en terreno, reparaciones hidráulicas/mecánicas de alta precisión y certificaciones bajo normativa chilena vigente.
-                        </p>
-                        
-                        <div class="pt-2 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="#servicios" class="bg-gradient-to-r from-safety-orange to-safety-amber hover:brightness-110 text-industrial-950 font-bold px-8 py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                                <span>Ver Catálogo de Servicios</span>
-                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                            </a>
-                            <a href="#cotizador" class="bg-industrial-800 hover:bg-slate-700 text-white font-semibold px-8 py-4 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
-                                <i data-lucide="calculator" class="w-5 h-5"></i>
-                                <span>Cotizar Proyecto</span>
-                            </a>
-                        </div>
-
-                        <!-- Trust Badges Grid -->
-                        <div class="pt-8 border-t border-slate-800/80 grid grid-cols-3 gap-4 text-left">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-safety-orange">
-                                    <i data-lucide="award" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs sm:text-sm font-bold text-white">Técnicos SEC/SEC-M</h4>
-                                    <p class="text-xs text-slate-400">100% Calificados</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-safety-orange">
-                                    <i data-lucide="truck" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs sm:text-sm font-bold text-white">Soporte Terreno</h4>
-                                    <p class="text-xs text-slate-400">Taller Móvil 24/7</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-safety-orange">
-                                    <i data-lucide="file-check-2" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs sm:text-sm font-bold text-white">Norma Vigente</h4>
-                                    <p class="text-xs text-slate-400">Informes Oficiales</p>
-                                </div>
-                            </div>
-                        </div>
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative py-20 lg:py-28 overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> Atención Rápida en Santiago
                     </div>
-
-                    <!-- Hero Visual Card -->
-                    <div class="lg:col-span-5">
-                        <div class="relative bg-gradient-to-b from-slate-800 to-industrial-950 p-6 rounded-2xl border border-slate-700 shadow-2xl">
-                            <div class="absolute -top-3 -right-3 bg-safety-orange text-industrial-950 text-xs font-bold px-3 py-1 rounded-full shadow">
-                                VENTA Y CONTRATOS
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Mantenimiento Industrial" class="w-full h-64 object-cover rounded-xl mb-6 shadow-inner" onerror="this.src='https://placehold.co/800x500/1e293b/ffffff?text=Maquinaria+Industrial'">
-                            
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                                    <span class="text-sm font-semibold text-slate-300">Respuesta promedio en Terreno</span>
-                                    <span class="text-sm font-bold text-safety-orange">&lt; 3 Horas</span>
-                                </div>
-                                <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                                    <span class="text-sm font-semibold text-slate-300">Cobertura Operativa</span>
-                                    <span class="text-sm font-bold text-slate-100">Región Metropolitana y Regiones</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-semibold text-slate-300">Pasarelas Aceptadas</span>
-                                    <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                                        <i data-lucide="credit-card" class="w-4 h-4"></i> Webpay Plus / Tarjetas
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICES CATALOG SECTION -->
-        <section id="servicios" class="py-20 bg-industrial-900">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-                    <div>
-                        <span class="text-safety-orange text-xs font-bold tracking-widest uppercase block mb-1">Catálogo de Soluciones</span>
-                        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Servicios Técnicos Especializados</h2>
-                    </div>
-                    
-                    <!-- Category Filters -->
-                    <div class="flex flex-wrap gap-2">
-                        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-safety-orange text-industrial-950 font-bold' : 'bg-industrial-800 text-slate-300 hover:bg-slate-700'" class="px-4 py-2 rounded-xl text-xs sm:text-sm transition">
-                            Todos
-                        </button>
-                        <button @click="selectedCategory = 'reparacion'" :class="selectedCategory === 'reparacion' ? 'bg-safety-orange text-industrial-950 font-bold' : 'bg-industrial-800 text-slate-300 hover:bg-slate-700'" class="px-4 py-2 rounded-xl text-xs sm:text-sm transition">
-                            Reparación Mecánica
-                        </button>
-                        <button @click="selectedCategory = 'preventiva'" :class="selectedCategory === 'preventiva' ? 'bg-safety-orange text-industrial-950 font-bold' : 'bg-industrial-800 text-slate-300 hover:bg-slate-700'" class="px-4 py-2 rounded-xl text-xs sm:text-sm transition">
-                            Mantención Preventiva
-                        </button>
-                        <button @click="selectedCategory = 'certificacion'" :class="selectedCategory === 'certificacion' ? 'bg-safety-orange text-industrial-950 font-bold' : 'bg-industrial-800 text-slate-300 hover:bg-slate-700'" class="px-4 py-2 rounded-xl text-xs sm:text-sm transition">
-                            Certificaciones
-                        </button>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                        Técnico Especialista en <span class="text-amber-400">Plataformas Elevadoras</span>
+                    </h1>
+                    <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                        Mantención y reparación en terreno para tijeras y brazos articulados. Servicio técnico multimarca garantizado para equipos <strong>Genie, JLG y Alo Lift</strong>.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#servicios" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-6 py-3.5 rounded-xl font-bold flex items-center gap-2 transition shadow-lg shadow-amber-500/20">
+                            Ver Catálogo y Precios <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://wa.me/56900000000?text=Hola,%20necesito%20asistencia%20técnica%20para%20un%20alza%20hombre" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 px-6 py-3.5 rounded-xl font-bold flex items-center gap-2 transition">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-green-400"></i> Agendar por WhatsApp
+                        </a>
                     </div>
                 </div>
 
-                <!-- Services Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <template x-for="service in filteredServices" :key="service.id">
-                        <div class="bg-industrial-800 rounded-2xl border border-slate-700/80 overflow-hidden hover:border-slate-500 transition-all duration-300 flex flex-col justify-between group shadow-lg">
-                            <div>
-                                <!-- Image Container -->
-                                <div class="relative h-48 overflow-hidden bg-slate-900">
-                                    <img :src="service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/ffffff?text=Servicio+Mecanico'">
-                                    <div class="absolute top-3 left-3 bg-industrial-950/80 backdrop-blur text-safety-yellow text-xs font-bold px-2.5 py-1 rounded-md border border-slate-700" x-text="getCategoryLabel(service.category)"></div>
-                                </div>
-
-                                <!-- Card Body -->
-                                <div class="p-6">
-                                    <h3 class="font-heading text-xl font-bold text-white mb-2 group-hover:text-safety-orange transition-colors" x-text="service.title"></h3>
-                                    <p class="text-slate-400 text-sm mb-4 line-clamp-2" x-text="service.description"></p>
-                                    
-                                    <div class="space-y-2 text-xs text-slate-300 mb-6 bg-industrial-900/60 p-3 rounded-lg border border-slate-800">
-                                        <div class="flex items-center gap-2">
-                                            <i data-lucide="clock" class="w-4 h-4 text-safety-orange"></i>
-                                            <span>Tiempo est.: <strong x-text="service.executionTime"></strong></span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-                                            <span>Norma: <strong x-text="service.normative"></strong></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Footer Price & Actions -->
-                            <div class="p-6 pt-0 border-t border-slate-800/50 mt-auto">
-                                <div class="flex justify-between items-baseline my-4">
-                                    <span class="text-xs text-slate-400">Base Estimada:</span>
-                                    <span class="font-heading text-xl font-extrabold text-white" x-text="formatCLP(service.price)"></span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <button @click="openModalDetail(service)" class="w-full py-2.5 px-3 bg-industrial-900 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center justify-center gap-1">
-                                        <i data-lucide="eye" class="w-3.5 h-3.5"></i> Detalles
-                                    </button>
-                                    <button @click="addToCart(service)" class="w-full py-2.5 px-3 bg-safety-orange hover:bg-safety-amber text-industrial-950 font-bold text-xs rounded-xl transition shadow flex items-center justify-center gap-1">
-                                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Agregar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </section>
-
-        <!-- CERTIFICATIONS & COMPLIANCE SECTION -->
-        <section id="certificaciones" class="py-16 bg-industrial-800/50 border-y border-slate-800">
-            <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto text-center mb-12">
-                    <span class="text-safety-orange text-xs font-bold tracking-widest uppercase block mb-1">Respaldo Legal y Operativo</span>
-                    <h2 class="font-heading text-3xl font-bold text-white mb-4">Certificación de Equipos e Informes Técnicos</h2>
-                    <p class="text-slate-300 text-sm">Emitimos certificados de operatividad para auditar maquinaria pesada en faenas mineras, construcciones y puertos bajo estricto cumplimiento legal.</p>
-                </div>
-
-                <div class="grid md:grid-cols-4 gap-6">
-                    <div class="bg-industrial-900 p-6 rounded-2xl border border-slate-800 text-center space-y-3">
-                        <div class="w-12 h-12 bg-safety-orange/10 rounded-xl text-safety-orange flex items-center justify-center mx-auto">
-                            <i data-lucide="file-text" class="w-6 h-6"></i>
-                        </div>
-                        <h4 class="font-bold text-white">Inspección NDT</h4>
-                        <p class="text-xs text-slate-400">Ensayos no destructivos en estructuras, plumas y ganchos de elevación.</p>
-                    </div>
-
-                    <div class="bg-industrial-900 p-6 rounded-2xl border border-slate-800 text-center space-y-3">
-                        <div class="w-12 h-12 bg-safety-orange/10 rounded-xl text-safety-orange flex items-center justify-center mx-auto">
-                            <i data-lucide="activity" class="w-6 h-6"></i>
-                        </div>
-                        <h4 class="font-bold text-white">Pruebas de Carga</h4>
-                        <p class="text-xs text-slate-400">Verificación dinámica y estática con celdas de carga calibradas.</p>
-                    </div>
-
-                    <div class="bg-industrial-900 p-6 rounded-2xl border border-slate-800 text-center space-y-3">
-                        <div class="w-12 h-12 bg-safety-orange/10 rounded-xl text-safety-orange flex items-center justify-center mx-auto">
-                            <i data-lucide="cpu" class="w-6 h-6"></i>
-                        </div>
-                        <h4 class="font-bold text-white">Telemetría y ECU</h4>
-                        <p class="text-xs text-slate-400">Lectura de códigos de falla y reprogramación de parámetros.</p>
-                    </div>
-
-                    <div class="bg-industrial-900 p-6 rounded-2xl border border-slate-800 text-center space-y-3">
-                        <div class="w-12 h-12 bg-safety-orange/10 rounded-xl text-safety-orange flex items-center justify-center mx-auto">
-                            <i data-lucide="check-square" class="w-6 h-6"></i>
-                        </div>
-                        <h4 class="font-bold text-white">Checklist de Salida</h4>
-                        <p class="text-xs text-slate-400">Informes digitales entregados en menos de 24 horas.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- QUICK QUOTE & CONTACT SECTION -->
-        <section id="cotizador" class="py-20 bg-industrial-900">
-            <div class="container mx-auto px-4">
-                <div class="grid lg:grid-cols-12 gap-12">
-                    <!-- Form Header & Machinery Selector -->
-                    <div class="lg:col-span-7 space-y-6">
-                        <div>
-                            <span class="text-safety-orange text-xs font-bold tracking-widest uppercase block mb-1">Cotizador Exprés</span>
-                            <h2 class="font-heading text-3xl font-bold text-white">Solicita Presupuesto o Visita Técnica</h2>
-                            <p class="text-slate-400 text-sm mt-2">Completa los datos de tu maquinaria y te enviaremos una propuesta formal en PDF.</p>
-                        </div>
-
-                        <form @submit.prevent="submitQuoteForm()" class="bg-industrial-800 p-6 sm:p-8 rounded-2xl border border-slate-700 space-y-4 shadow-xl">
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-                                    <input type="text" x-model="quoteForm.name" required placeholder="Ej: Juan Pérez" class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Empresa / RUT *</label>
-                                    <input type="text" x-model="quoteForm.company" required placeholder="Ej: Constructora SpA / 76.xxx.xxx-k" class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                </div>
-                            </div>
-
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Teléfono WhatsApp *</label>
-                                    <input type="tel" x-model="quoteForm.phone" required placeholder="+56 9 1234 5678" class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-                                    <input type="email" x-model="quoteForm.email" required placeholder="contacto@empresa.cl" class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                </div>
-                            </div>
-
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Tipo de Maquinaria *</label>
-                                    <select x-model="quoteForm.machineryType" required class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                        <option value="">Seleccione una opción...</option>
-                                        <option value="Grúa Horquilla">Grúa Horquilla / Telehandler</option>
-                                        <option value="Excavadora / Retroexcavadora">Excavadora / Retroexcavadora</option>
-                                        <option value="Puente Grúa / Polipasto">Puente Grúa / Polipasto Industrial</option>
-                                        <option value="Compresor / Generador Diesel">Generador Diesel / Compresor de Aire</option>
-                                        <option value="Cargador Frontal">Cargador Frontal / Minicargador</option>
-                                        <option value="Otra Maquinaria Pesada">Otra Maquinaria Industrial</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ubicación de la Faena/Taller</label>
-                                    <input type="text" x-model="quoteForm.location" placeholder="Ej: Quilicura, Santiago" class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">Descripción de la falla o requerimiento</label>
-                                <textarea x-model="quoteForm.message" rows="3" placeholder="Indique síntomas de la falla, horas de uso o certificaciones requeridas..." class="w-full bg-industrial-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-safety-orange"></textarea>
-                            </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-safety-orange to-safety-amber text-industrial-950 font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-                                <i data-lucide="send" class="w-4 h-4"></i>
-                                <span>Enviar Solicitud de Cotización</span>
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Contact Info & Visual Map -->
-                    <div id="contacto" class="lg:col-span-5 space-y-6">
-                        <div class="bg-industrial-800 p-6 sm:p-8 rounded-2xl border border-slate-700 space-y-6">
-                            <h3 class="font-heading text-xl font-bold text-white">Información Operativa</h3>
-
-                            <div class="space-y-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2.5 bg-industrial-900 text-safety-orange rounded-xl border border-slate-700">
-                                        <i data-lucide="map-pin" class="w-5 h-5"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-xs text-slate-400 font-medium">Taller Principal</h5>
-                                        <p class="text-sm font-semibold text-white" x-text="companyAddress"></p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2.5 bg-industrial-900 text-safety-orange rounded-xl border border-slate-700">
-                                        <i data-lucide="phone-call" class="w-5 h-5"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-xs text-slate-400 font-medium">Teléfonos de Urgencia</h5>
-                                        <p class="text-sm font-semibold text-white" x-text="companyPhone"></p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2.5 bg-industrial-900 text-safety-orange rounded-xl border border-slate-700">
-                                        <i data-lucide="mail" class="w-5 h-5"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-xs text-slate-400 font-medium">Correo Electrónico</h5>
-                                        <p class="text-sm font-semibold text-white" x-text="companyEmail"></p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2.5 bg-industrial-900 text-safety-orange rounded-xl border border-slate-700">
-                                        <i data-lucide="clock" class="w-5 h-5"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-xs text-slate-400 font-medium">Horario de Taller</h5>
-                                        <p class="text-sm font-semibold text-white">Lunes a Viernes: 08:00 - 18:30 hrs</p>
-                                        <p class="text-xs text-safety-yellow font-medium mt-0.5">Soporte Terreno 24/7 previo acuerdo</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Visual Map Simulation -->
-                            <div class="relative h-48 bg-slate-900 rounded-xl overflow-hidden border border-slate-700 flex items-center justify-center">
-                                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-40">
-                                <div class="absolute inset-0 bg-gradient-to-t from-industrial-900 via-transparent to-transparent"></div>
-                                <div class="relative text-center p-4">
-                                    <i data-lucide="navigation" class="w-8 h-8 text-safety-orange mx-auto mb-2 animate-bounce"></i>
-                                    <span class="text-xs font-bold text-white block">SANTIAGO & ZONAS INDUSTRIALES</span>
-                                    <span class="text-[10px] text-slate-400">Despliegue de cuadrillas móviles</span>
-                                </div>
-                            </div>
+                <!-- Imagen Destacada -->
+                <div class="relative">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl blur-xl opacity-30"></div>
+                    <div class="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl bg-slate-800">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80" alt="Mecanico de maquinaria pesada" class="w-full h-[400px] object-cover">
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent p-6">
+                            <p class="text-white font-bold text-lg">Especialistas en Hidráulica y Electricidad Industrial</p>
+                            <p class="text-slate-400 text-sm">Diagnosticamos e intervenimos tu maquinaria en la misma obra o taller.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-industrial-950 border-t border-slate-800 text-slate-400 text-xs py-8">
-        <div class="container mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <i data-lucide="wrench" class="w-4 h-4 text-safety-orange"></i>
-                <span class="font-heading font-bold text-slate-200" x-text="companyName"></span>
-                <span>© 2026. Todos los derechos reservados.</span>
-            </div>
-            <div class="flex gap-4">
-                <a href="#" class="hover:text-white">Términos del Servicio</a>
-                <a href="#" class="hover:text-white">Normativa de Certificación</a>
-                <a href="#" class="hover:text-white">Transbank Webpay</a>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <!-- SHOPPING CART SLIDE-OVER -->
-    <div x-show="isCartOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end">
-        <div @click.outside="isCartOpen = false" class="w-full max-w-md bg-industrial-900 border-l border-slate-700 h-full flex flex-col shadow-2xl">
-            <!-- Cart Header -->
-            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-industrial-950">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="shopping-bag" class="w-5 h-5 text-safety-orange"></i>
-                    <h3 class="font-heading text-lg font-bold text-white">Carrito de Servicios</h3>
-                </div>
-                <button @click="isCartOpen = false" class="text-slate-400 hover:text-white p-1">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
+    <!-- BANNER DE MARCAS COMPATIBLES -->
+    <section id="marcas" class="py-10 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Servicio Técnico Multimarca Especializado</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-16 opacity-80">
+                <span class="text-2xl font-black tracking-widest text-slate-300">GENIE</span>
+                <span class="text-2xl font-black tracking-widest text-slate-300">JLG</span>
+                <span class="text-2xl font-black tracking-widest text-slate-300">ALO LIFT</span>
+                <span class="text-2xl font-black tracking-widest text-slate-300">HAULOTTE</span>
             </div>
+        </div>
+    </section>
 
-            <!-- Cart Items List -->
-            <div class="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                <template x-if="cart.length === 0">
-                    <div class="text-center py-12 text-slate-500 space-y-3">
-                        <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto text-slate-700"></i>
-                        <p class="text-sm">El carrito está vacío por ahora.</p>
-                        <button @click="isCartOpen = false" class="text-xs text-safety-orange hover:underline">Ver catálogo disponible</button>
-                    </div>
-                </template>
+    <!-- CATÁLOGO DE SERVICIOS (CARRITO) -->
+    <section id="servicios" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Catálogo de Servicios Técnico</h2>
+            <p class="text-slate-400">Selecciona las prestaciones que requieres para tu equipo alza hombre y realiza la reserva o pago directo mediante Webpay.</p>
+        </div>
 
-                <template x-for="(item, index) in cart" :key="index">
-                    <div class="bg-industrial-800 p-3.5 rounded-xl border border-slate-700/80 flex gap-3 items-center">
-                        <img :src="item.image" class="w-16 h-16 object-cover rounded-lg bg-slate-900" onerror="this.src='https://placehold.co/200x200/1e293b/ffffff?text=Servicio'">
-                        <div class="flex-grow">
-                            <h4 class="text-sm font-bold text-white line-clamp-1" x-text="item.title"></h4>
-                            <span class="text-xs text-safety-orange font-semibold" x-text="formatCLP(item.price)"></span>
-                            <div class="flex items-center gap-2 mt-2">
-                                <button @click="updateQuantity(index, -1)" class="w-6 h-6 rounded bg-industrial-900 text-slate-300 flex items-center justify-center font-bold text-xs">-</button>
-                                <span class="text-xs text-white font-semibold" x-text="item.quantity"></span>
-                                <button @click="updateQuantity(index, 1)" class="w-6 h-6 rounded bg-industrial-900 text-slate-300 flex items-center justify-center font-bold text-xs">+</button>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+            <!-- Los servicios se generan dinámicamente con JS -->
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CONTACTO Y UBICACIÓN -->
+    <section id="contacto" class="py-20 bg-slate-950 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white mb-6">Contáctanos / Cobertura</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">
+                        Ofrecemos servicio de mantención correctiva y preventiva en terreno dentro de toda la Región Metropolitana de Santiago.
+                    </p>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-amber-400">
+                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Ubicación principal</p>
+                                <p class="font-bold">Santiago, Chile (Atención Terreno)</p>
                             </div>
                         </div>
-                        <button @click="removeFromCart(index)" class="text-slate-500 hover:text-red-400 p-1">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </template>
-            </div>
 
-            <!-- Cart Summary & Checkout Trigger -->
-            <template x-if="cart.length > 0">
-                <div class="p-4 border-t border-slate-800 bg-industrial-950 space-y-3">
-                    <div class="space-y-1 text-xs">
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-amber-400">
+                                <i data-lucide="instagram" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Instagram Oficial</p>
+                                <a href="https://instagram.com/air.litf" target="_blank" class="font-bold text-amber-400 hover:underline">@air.litf</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-green-400">
+                                <i data-lucide="phone" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Atención Rápida / WhatsApp</p>
+                                <p class="font-bold">+56 9 1234 5678</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de Contacto -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-white mb-6">Solicitar Cotización Directa</h3>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Nombre o Razón Social</label>
+                            <input type="text" required placeholder="Ej:Constructora SpA" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Teléfono de Contacto</label>
+                            <input type="tel" required placeholder="+56 9 ..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Modelo de Maquinaria y Falla</label>
+                            <textarea rows="3" required placeholder="Ej: Plataforma Tijera Genie GS-1930 no eleva" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl transition">
+                            Enviar Solicitud
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 text-center text-slate-400 text-xs">
+        <p>© 2026 Air Lift - Servicio Técnico Alza Hombre Santiago. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- SLIDE-OVER / MODAL DEL CARRITO DE COMPRAS -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col">
+                <div class="p-6 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="text-amber-400"></i> Tu Solicitud de Servicios
+                    </h2>
+                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div id="cart-items" class="flex-grow p-6 overflow-y-auto space-y-4">
+                    <!-- Elementos del carrito cargados por JS -->
+                </div>
+
+                <div class="p-6 bg-slate-950 border-t border-slate-800 space-y-4">
+                    <div class="space-y-2 text-sm">
                         <div class="flex justify-between text-slate-400">
-                            <span>Subtotal (Neto):</span>
-                            <span x-text="formatCLP(cartSubtotal)"></span>
+                            <span>Subtotal neto:</span>
+                            <span id="cart-subtotal">\$0 CLP</span>
                         </div>
                         <div class="flex justify-between text-slate-400">
                             <span>IVA (19%):</span>
-                            <span x-text="formatCLP(cartIVA)"></span>
+                            <span id="cart-tax">\$0 CLP</span>
                         </div>
-                        <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-slate-800">
-                            <span>Total Estimado CLP:</span>
-                            <span class="text-safety-orange" x-text="formatCLP(cartTotal)"></span>
+                        <div class="flex justify-between text-lg font-bold text-white pt-2 border-t border-slate-800">
+                            <span>Total a Pagar:</span>
+                            <span id="cart-total" class="text-amber-400">\$0 CLP</span>
                         </div>
                     </div>
 
-                    <button @click="openCheckoutModal()" class="w-full bg-gradient-to-r from-safety-orange to-safety-amber text-industrial-950 font-bold py-3 rounded-xl transition shadow flex items-center justify-center gap-2 text-sm">
-                        <i data-lucide="credit-card" class="w-4 h-4"></i>
-                        <span>Procesar Pago / Webpay Plus</span>
+                    <button onclick="openCheckoutModal()" id="checkout-btn" disabled class="w-full bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition">
+                        <i data-lucide="credit-card" class="w-5 h-5"></i> Pagar con Webpay Plus
                     </button>
                 </div>
-            </template>
+            </div>
         </div>
     </div>
 
-    <!-- SERVICE DETAILS MODAL -->
-    <div x-show="isDetailModalOpen" x-transition class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div @click.outside="isDetailModalOpen = false" class="bg-industrial-800 border border-slate-700 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
-            <template x-if="selectedServiceModal">
-                <div>
-                    <div class="relative h-48 bg-slate-900">
-                        <img :src="selectedServiceModal.image" class="w-full h-full object-cover">
-                        <button @click="isDetailModalOpen = false" class="absolute top-3 right-3 bg-industrial-950/80 text-white p-1.5 rounded-full hover:bg-industrial-950">
-                            <i data-lucide="x" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <span class="text-xs text-safety-orange font-bold uppercase tracking-wider" x-text="getCategoryLabel(selectedServiceModal.category)"></span>
-                            <h3 class="font-heading text-2xl font-bold text-white" x-text="selectedServiceModal.title"></h3>
-                        </div>
-
-                        <p class="text-sm text-slate-300 leading-relaxed" x-text="selectedServiceModal.description"></p>
-
-                        <div class="bg-industrial-900 p-4 rounded-xl border border-slate-700 space-y-2">
-                            <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wide">Alcance del Trabajo e Inclusiones:</h4>
-                            <ul class="space-y-1.5 text-xs text-slate-300">
-                                <template x-for="item in selectedServiceModal.checklist" :key="item">
-                                    <li class="flex items-center gap-2">
-                                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-                                        <span x-text="item"></span>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-
-                        <div class="flex justify-between items-center pt-2">
-                            <div>
-                                <span class="text-xs text-slate-400 block">Precio Estimado</span>
-                                <span class="font-heading text-xl font-extrabold text-white" x-text="formatCLP(selectedServiceModal.price)"></span>
-                            </div>
-                            <button @click="addToCart(selectedServiceModal); isDetailModalOpen = false;" class="bg-safety-orange hover:bg-safety-amber text-industrial-950 font-bold px-5 py-2.5 rounded-xl text-xs transition flex items-center gap-2">
-                                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                                <span>Agregar al Carrito</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-    </div>
-
-    <!-- CHECKOUT & WEBPAY SIMULATOR MODAL -->
-    <div x-show="isCheckoutOpen" x-transition class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-industrial-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 my-8 shadow-2xl relative">
-            <button @click="isCheckoutOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
+    <!-- MODAL SIMULADOR WEBPAY PLUS -->
+    <div id="webpay-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="bg-white text-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl m-4 relative border border-slate-200">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-
-            <!-- STEP 1: CLIENT DATA FORM -->
-            <template x-if="checkoutStep === 'form'">
-                <div class="space-y-5">
-                    <div class="border-b border-slate-800 pb-3">
-                        <span class="text-xs font-bold text-safety-orange uppercase tracking-wider">Paso 1 de 2</span>
-                        <h3 class="font-heading text-2xl font-bold text-white">Datos de Facturación y Faena</h3>
-                    </div>
-
-                    <div class="grid sm:grid-cols-2 gap-4 text-xs">
-                        <div>
-                            <label class="block text-slate-300 font-medium mb-1">RUT Empresa / Cliente *</label>
-                            <input type="text" x-model="checkoutForm.rut" placeholder="12.345.678-K" class="w-full bg-industrial-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-safety-orange">
-                        </div>
-                        <div>
-                            <label class="block text-slate-300 font-medium mb-1">Nombre Completo *</label>
-                            <input type="text" x-model="checkoutForm.name" placeholder="Juan Carlos Pérez" class="w-full bg-industrial-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-safety-orange">
-                        </div>
-                        <div>
-                            <label class="block text-slate-300 font-medium mb-1">Empresa / Razon Social</label>
-                            <input type="text" x-model="checkoutForm.company" placeholder="Servicios Limitada" class="w-full bg-industrial-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-safety-orange">
-                        </div>
-                        <div>
-                            <label class="block text-slate-300 font-medium mb-1">Teléfono Contacto *</label>
-                            <input type="tel" x-model="checkoutForm.phone" placeholder="+569..." class="w-full bg-industrial-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-safety-orange">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-slate-300 font-medium mb-1">Dirección de Taller / Faena *</label>
-                        <input type="text" x-model="checkoutForm.address" placeholder="Av. Industrial 1234, Pudahuel" class="w-full bg-industrial-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-safety-orange">
-                    </div>
-
-                    <div class="bg-industrial-800 p-4 rounded-xl border border-slate-700 flex justify-between items-center text-sm">
-                        <span class="text-slate-300">Monto Final a Pagar:</span>
-                        <span class="font-heading text-lg font-bold text-safety-orange" x-text="formatCLP(cartTotal)"></span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3 pt-2">
-                        <button @click="proceedToWebpaySim()" class="w-full bg-webpay hover:bg-sky-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs">
-                            <i data-lucide="credit-card" class="w-4 h-4"></i>
-                            <span>Pagar con Webpay Plus</span>
-                        </button>
-                        <button @click="proceedToTransferSim()" class="w-full bg-industrial-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs">
-                            <i data-lucide="landmark" class="w-4 h-4"></i>
-                            <span>Transferencia Bancaria</span>
-                        </button>
-                    </div>
+            <div class="text-center mb-6">
+                <div class="bg-red-600 text-white font-black text-xl py-2 px-4 rounded-lg inline-block mb-3">
+                    Webpay Plus
                 </div>
-            </template>
+                <p class="text-xs text-slate-500">Transbank - Transacción Segura</p>
+            </div>
 
-            <!-- STEP 2: WEBPAY PLUS VISUAL SIMULATOR -->
-            <template x-if="checkoutStep === 'webpay'">
-                <div class="space-y-6">
-                    <div class="bg-webpay text-white p-4 rounded-xl flex items-center justify-between shadow-md">
-                        <div>
-                            <h4 class="font-bold text-lg">Webpay Plus</h4>
-                            <p class="text-xs opacity-80">Transbank - Pasarela Segura</p>
-                        </div>
-                        <i data-lucide="shield-check" class="w-8 h-8 text-emerald-300"></i>
-                    </div>
-
-                    <div class="bg-industrial-800 p-4 rounded-xl border border-slate-700 space-y-2 text-xs">
-                        <div class="flex justify-between text-slate-300">
-                            <span>Comercio:</span>
-                            <strong class="text-white" x-text="companyName"></strong>
-                        </div>
-                        <div class="flex justify-between text-slate-300">
-                            <span>Orden de Compra:</span>
-                            <strong class="text-white" x-text="simulatedOrderNumber"></strong>
-                        </div>
-                        <div class="flex justify-between text-slate-300">
-                            <span>Monto Total CLP:</span>
-                            <strong class="text-emerald-400 font-bold" x-text="formatCLP(cartTotal)"></strong>
-                        </div>
-                    </div>
-
-                    <!-- Payment Options in Webpay -->
-                    <div class="space-y-3">
-                        <label class="block text-xs font-medium text-slate-300">Seleccione Medio de Pago Simulado:</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button @click="selectedPaymentMethod = 'debito'" :class="selectedPaymentMethod === 'debito' ? 'border-sky-500 bg-sky-950/40 text-white' : 'border-slate-700 bg-industrial-800 text-slate-400'" class="p-3 border rounded-xl text-xs font-semibold flex items-center gap-2">
-                                <i data-lucide="credit-card" class="w-4 h-4 text-sky-400"></i> Debito / Redcompra
-                            </button>
-                            <button @click="selectedPaymentMethod = 'credito'" :class="selectedPaymentMethod === 'credito' ? 'border-sky-500 bg-sky-950/40 text-white' : 'border-slate-700 bg-industrial-800 text-slate-400'" class="p-3 border rounded-xl text-xs font-semibold flex items-center gap-2">
-                                <i data-lucide="credit-card" class="w-4 h-4 text-amber-400"></i> Tarjeta de Crédito
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
-                        <div class="flex items-center gap-2 text-slate-400">
-                            <i data-lucide="info" class="w-4 h-4 text-sky-400"></i>
-                            <span>Simulación de Transacción Transbank</span>
-                        </div>
-                        <p class="text-slate-400">Al hacer clic en "Aprobar Pago Simulado", la transacción emitirá un comprobante con el desglose del IVA.</p>
-                    </div>
-
-                    <button @click="processPaymentSim()" :disabled="isProcessingPayment" class="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2">
-                        <template x-if="!isProcessingPayment">
-                            <span class="flex items-center gap-2">
-                                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-                                <span>Aprobar Pago Simulado (<span x-text="formatCLP(cartTotal)"></span>)</span>
-                            </span>
-                        </template>
-                        <template x-if="isProcessingPayment">
-                            <span class="flex items-center gap-2 animate-pulse">
-                                <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
-                                <span>Conectando con Transbank...</span>
-                            </span>
-                        </template>
-                    </button>
+            <div class="bg-slate-50 p-4 rounded-xl mb-6 text-sm space-y-2">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Comercio:</span>
+                    <span class="font-bold">Air Lift Santiago</span>
                 </div>
-            </template>
-
-            <!-- STEP 3: SUCCESSFUL RECEIPT -->
-            <template x-if="checkoutStep === 'success'">
-                <div class="text-center space-y-6 py-4">
-                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-500/40">
-                        <i data-lucide="check" class="w-8 h-8"></i>
-                    </div>
-
-                    <div>
-                        <h3 class="font-heading text-2xl font-bold text-white">¡Pago Confirmado con Éxito!</h3>
-                        <p class="text-slate-400 text-xs mt-1">Orden Nº <strong class="text-white" x-text="simulatedOrderNumber"></strong></p>
-                    </div>
-
-                    <div class="bg-industrial-800 p-4 rounded-xl border border-slate-700 text-left space-y-2 text-xs">
-                        <div class="flex justify-between border-b border-slate-700 pb-2">
-                            <span class="text-slate-400">Cliente:</span>
-                            <span class="text-white font-semibold" x-text="checkoutForm.name"></span>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-700 pb-2">
-                            <span class="text-slate-400">RUT / Empresa:</span>
-                            <span class="text-white font-semibold" x-text="checkoutForm.rut + ' / ' + checkoutForm.company"></span>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-700 pb-2">
-                            <span class="text-slate-400">Faena:</span>
-                            <span class="text-white font-semibold" x-text="checkoutForm.address"></span>
-                        </div>
-                        <div class="flex justify-between pt-1 font-bold text-sm">
-                            <span class="text-slate-300">Total Pagado Webpay:</span>
-                            <span class="text-emerald-400" x-text="formatCLP(cartTotal)"></span>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <a :href="generateWhatsAppReceiptLink()" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-lg">
-                            <i data-lucide="message-square" class="w-4 h-4"></i>
-                            <span>Enviar Comprobante por WhatsApp</span>
-                        </a>
-                        <button @click="resetCartAndClose()" class="w-full bg-industrial-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 rounded-xl transition text-xs">
-                            Cerrar Ventana
-                        </button>
-                    </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Monto total:</span>
+                    <span class="font-bold text-red-600" id="webpay-amount">\$0 CLP</span>
                 </div>
-            </template>
-        </div>
-    </div>
+            </div>
 
-    <!-- DEVELOPER CUSTOMIZATION FLOATING PANEL -->
-    <div class="fixed bottom-4 left-4 z-50">
-        <button @click="isDevPanelOpen = !isDevPanelOpen" class="bg-industrial-800 hover:bg-slate-700 text-safety-yellow border border-slate-700 p-3 rounded-full shadow-2xl flex items-center gap-2 group transition">
-            <i data-lucide="settings" class="w-5 h-5 group-hover:rotate-90 transition-transform"></i>
-            <span class="text-xs font-bold text-white pr-1">Panel Edición</span>
-        </button>
-
-        <div x-show="isDevPanelOpen" x-transition class="absolute bottom-14 left-0 bg-industrial-900 border border-slate-700 rounded-2xl p-5 w-80 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                <h4 class="font-bold text-xs text-safety-yellow uppercase tracking-wider flex items-center gap-1">
-                    <i data-lucide="sliders" class="w-4 h-4"></i> Personalizar Datos Sitio
-                </h4>
-                <button @click="isDevPanelOpen = false" class="text-slate-400 hover:text-white">
-                    <i data-lucide="x" class="w-4 h-4"></i>
+            <div class="space-y-3">
+                <button onclick="processWebpayPayment('Debito')" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i> Tarjeta de Débito (Redcompra)
+                </button>
+                <button onclick="processWebpayPayment('Credito')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 border">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i> Tarjeta de Crédito / Cuotas
                 </button>
             </div>
-
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block text-slate-400 mb-1">Nombre de la Empresa</label>
-                    <input type="text" x-model="companyName" class="w-full bg-industrial-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-slate-400 mb-1">Número de WhatsApp (Chile)</label>
-                    <input type="text" x-model="companyWhatsapp" class="w-full bg-industrial-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-slate-400 mb-1">Teléfono Visible</label>
-                    <input type="text" x-model="companyPhone" class="w-full bg-industrial-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-slate-400 mb-1">Dirección Taller</label>
-                    <input type="text" x-model="companyAddress" class="w-full bg-industrial-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
-                </div>
-            </div>
-
-            <p class="text-[10px] text-slate-500 italic">Los cambios se aplican inmediatamente en el prototipo para que se lo muestres a tu cliente.</p>
         </div>
     </div>
 
+    <!-- LÓGICA JAVASCRIPT -->
     <script>
-        function appData() {
-            return {
-                // Company Editable Information
-                companyName: 'MaqTech / ServiMec',
-                companyWhatsapp: '56912345678',
-                companyPhone: '+56 9 1234 5678',
-                companyEmail: 'contacto@servimec.cl',
-                companyAddress: 'Av. Américo Vespucio 2800, Quilicura, Santiago',
+        // Datos de servicios extraídos de la especialidad de Air Lift
+        const services = [
+            {
+                id: 1,
+                title: "Mantención Preventiva en Terreno",
+                desc: "Revisión completa de niveles, lubricación, estado de mangueras hidráulicas y prueba de elevación.",
+                price: 120000,
+                badge: "Recomendado",
+                icon: "shield-check"
+            },
+            {
+                id: 2,
+                title: "Diagnóstico Hidráulico y Eléctrico",
+                desc: "Escaneo de fallas en módulos de control, solenoides, bombas y banco de baterías en Genie / JLG / Alo Lift.",
+                price: 85000,
+                badge: "Atención Rápida",
+                icon: "cpu"
+            },
+            {
+                id: 3,
+                title: "Certificación e Inspección Técnica",
+                desc: "Emisión de informe técnico de operatividad y prueba de carga para cumplimiento de normas de seguridad.",
+                price: 150000,
+                badge: "Normativa Ley",
+                icon: "file-check-2"
+            },
+            {
+                id: 4,
+                title: "Reparación Mecánica de Emergencia",
+                desc: "Visita técnica de urgencia en obra dentro de Santiago para destrabe de tijeras o fallas motoras.",
+                price: 95000,
+                badge: "Urgencias 24/7",
+                icon: "alert-triangle"
+            }
+        ];
 
-                // Navigation State
-                mobileMenuOpen: false,
-                isCartOpen: false,
-                isDetailModalOpen: false,
-                isCheckoutOpen: false,
-                isDevPanelOpen: false,
+        let cart = [];
 
-                // Filter State
-                selectedCategory: 'all',
-                selectedServiceModal: null,
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = services.map(s => `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/50 transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full">${s.badge}</span>
+                            <i data-lucide="${s.icon}" class="w-6 h-6 text-amber-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">${s.title}</h3>
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed">${s.desc}</p>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold text-white mb-4">$${s.price.toLocaleString('es-CL')} <span class="text-xs text-slate-500 font-normal">+ IVA</span></div>
+                        <button onclick="addToCart(${s.id})" class="w-full bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
 
-                // Cart State
-                cart: [],
+        function addToCart(id) {
+            const item = services.find(s => s.id === id);
+            const exists = cart.find(c => c.id === id);
+            if (exists) {
+                exists.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            updateCart();
+            toggleCart(true);
+        }
 
-                // Checkout State
-                checkoutStep: 'form', // 'form' | 'webpay' | 'success'
-                checkoutForm: {
-                    rut: '',
-                    name: '',
-                    company: '',
-                    phone: '',
-                    address: ''
-                },
-                selectedPaymentMethod: 'debito',
-                isProcessingPayment: false,
-                simulatedOrderNumber: '',
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCart();
+        }
 
-                // Quick Quote Form
-                quoteForm: {
-                    name: '',
-                    company: '',
-                    phone: '',
-                    email: '',
-                    machineryType: '',
-                    location: '',
-                    message: ''
-                },
+        function updateCart() {
+            const countEl = document.getElementById('cart-count');
+            const itemsEl = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const taxEl = document.getElementById('cart-tax');
+            const totalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
 
-                // Services Data Catalog
-                services: [
-                    {
-                        id: 1,
-                        title: 'Overhaul Mecánico de Motores Diesel Heavy Duty',
-                        category: 'reparacion',
-                        price: 1850000,
-                        executionTime: '3 a 5 días hábiles',
-                        normative: 'Especificaciones OEM Caterpillar/Komatsu',
-                        image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
-                        description: 'Ajuste completo de motor, rectificación de culatas, cambio de conjunto de pistones, camisas e inyectores para alta exigencia.',
-                        checklist: ['Desarmado y limpieza por ultrasonido', 'Escaneo computarizado previo y posterior', 'Cambio de empaquetaduras y retenes OEM', 'Prueba de banco de pruebas dinámico']
-                    },
-                    {
-                        id: 2,
-                        title: 'Certificación de Inspección Anual para Puentes Grúa',
-                        category: 'certificacion',
-                        price: 480000,
-                        executionTime: '1 día (en terreno)',
-                        normative: 'NCh2431 / OSHA 1910.179',
-                        image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80',
-                        description: 'Inspección técnica rigurosa de vigas, cables de acero, frena motor y pruebas de carga estática con emisión de informe firmado.',
-                        checklist: ['Ensayo de tintas penetrantes en ganchos', 'Verificación de limites de carrera y frentes', 'Prueba de sobrecarga controlada con celda', 'Emisión de Certificado Físico y Digital']
-                    },
-                    {
-                        id: 3,
-                        title: 'Diagnóstico e Intervención de Oleohidráulica',
-                        category: 'reparacion',
-                        price: 320000,
-                        executionTime: '24 horas',
-                        normative: 'ISO 4406 Limpieza de Fluidos',
-                        image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80',
-                        description: 'Calibración de bombas de pistones, cambio de sellos en cilindros hidráulicos y prueba de caudal/presión en circuito cerrado.',
-                        checklist: ['Medición de presión de alivio con manómetros', 'Análisis microscópico de contaminación de aceite', 'Reemplazo de empaquetaduras de cilindro', 'Flushing de tuberías principales']
-                    },
-                    {
-                        id: 4,
-                        title: 'Pauta de Mantención Preventiva 500 / 1000 Horas',
-                        category: 'preventiva',
-                        price: 550000,
-                        executionTime: '1 día',
-                        normative: 'Pauta Técnica del Fabricante',
-                        image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=600&q=80',
-                        description: 'Servicio integral periódico para excavadoras, cargadores y grúas horquilla. Reemplazo de todos los filtros y lubricantes de alto rendimiento.',
-                        checklist: ['Cambio de aceite de motor y transmisión', 'Sustitución de filtros de aire, petróleo e hidráulico', 'Análisis espectrométrico de aceite usado', 'Checklist de 50 puntos de seguridad']
-                    },
-                    {
-                        id: 5,
-                        title: 'Certificación Operativa de Grúas Horquilla',
-                        category: 'certificacion',
-                        price: 290000,
-                        executionTime: '4 horas por equipo',
-                        normative: 'ASME B56.1 / NCh2245',
-                        image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
-                        description: 'Evaluación técnica del estado mecánico, cadenas de levante, uñas, dirección y prueba de vuelco/estabilidad para operar en bodegas.',
-                        checklist: ['Medición de desgaste de cadenas de levante', 'Prueba del sistema de frenos y dirección', 'Verificación de luces de seguridad y baliza', 'Sticker de certificación pegado en máquina']
-                    },
-                    {
-                        id: 6,
-                        title: 'Diagnóstico Electrónico y Reprogramación ECU',
-                        category: 'reparacion',
-                        price: 220000,
-                        executionTime: '2 a 4 horas',
-                        normative: 'Protocolos CAN-BUS / J1939',
-                        image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=600&q=80',
-                        description: 'Lectura de códigos de falla activos e históricos, regeneración forzada de filtros DPF y calibración de sensores de aceleración.',
-                        checklist: ['Conexión con scanner multimarca industrial', 'Borrado de código de fallas y test de actuadores', 'Reprogramación de parámetros de aceleración', 'Informe técnico impreso de estado electrónico']
-                    }
-                ],
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const netSubtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const tax = Math.round(netSubtotal * 0.19);
+            const total = netSubtotal + tax;
 
-                // Filter Computeds
-                get filteredServices() {
-                    if (this.selectedCategory === 'all') return this.services;
-                    return this.services.filter(s => s.category === this.selectedCategory);
-                },
+            countEl.innerText = totalItems;
 
-                get cartTotalItems() {
-                    return this.cart.reduce((sum, i) => sum + i.quantity, 0);
-                },
+            if (cart.length === 0) {
+                itemsEl.innerHTML = `
+                    <div class="text-center py-12 text-slate-500">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-3 opacity-30"></i>
+                        <p>Tu carrito está vacío</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                itemsEl.innerHTML = cart.map(item => `
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-sm">${item.title}</p>
+                            <p class="text-xs text-amber-400">$${item.price.toLocaleString('es-CL')} c/u x ${item.qty}</p>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-500 hover:text-red-400">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `).join('');
+                checkoutBtn.disabled = false;
+            }
 
-                get cartSubtotal() {
-                    return this.cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-                },
+            subtotalEl.innerText = `$${netSubtotal.toLocaleString('es-CL')} CLP`;
+            taxEl.innerText = `$${tax.toLocaleString('es-CL')} CLP`;
+            totalEl.innerText = `$${total.toLocaleString('es-CL')} CLP`;
+            document.getElementById('webpay-amount').innerText = `$${total.toLocaleString('es-CL')} CLP`;
 
-                get cartIVA() {
-                    return Math.round(this.cartSubtotal * 0.19);
-                },
+            lucide.createIcons();
+        }
 
-                get cartTotal() {
-                    return this.cartSubtotal + this.cartIVA;
-                },
-
-                // Helper Methods
-                initApp() {
-                    this.$nextTick(() => {
-                        lucide.createIcons();
-                    });
-                },
-
-                getCategoryLabel(cat) {
-                    const labels = {
-                        reparacion: 'Reparación Mecánica',
-                        preventiva: 'Mantención Preventiva',
-                        certificacion: 'Certificación Técnica'
-                    };
-                    return labels[cat] || 'Servicio General';
-                },
-
-                formatCLP(amount) {
-                    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(amount);
-                },
-
-                openModalDetail(service) {
-                    this.selectedServiceModal = service;
-                    this.isDetailModalOpen = true;
-                    this.$nextTick(() => lucide.createIcons());
-                },
-
-                addToCart(service) {
-                    const existing = this.cart.find(item => item.id === service.id);
-                    if (existing) {
-                        existing.quantity++;
-                    } else {
-                        this.cart.push({
-                            id: service.id,
-                            title: service.title,
-                            price: service.price,
-                            image: service.image,
-                            quantity: 1
-                        });
-                    }
-                    this.isCartOpen = true;
-                    this.$nextTick(() => lucide.createIcons());
-                },
-
-                updateQuantity(index, delta) {
-                    this.cart[index].quantity += delta;
-                    if (this.cart[index].quantity <= 0) {
-                        this.cart.splice(index, 1);
-                    }
-                },
-
-                removeFromCart(index) {
-                    this.cart.splice(index, 1);
-                },
-
-                openCheckoutModal() {
-                    this.isCartOpen = false;
-                    this.checkoutStep = 'form';
-                    this.isCheckoutOpen = true;
-                    this.$nextTick(() => lucide.createIcons());
-                },
-
-                proceedToWebpaySim() {
-                    if (!this.checkoutForm.rut || !this.checkoutForm.name || !this.checkoutForm.phone) {
-                        alert('Por favor complete al menos RUT, Nombre y Teléfono de contacto.');
-                        return;
-                    }
-                    this.simulatedOrderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
-                    this.checkoutStep = 'webpay';
-                    this.$nextTick(() => lucide.createIcons());
-                },
-
-                proceedToTransferSim() {
-                    this.proceedToWebpaySim();
-                },
-
-                processPaymentSim() {
-                    this.isProcessingPayment = true;
-                    setTimeout(() => {
-                        this.isProcessingPayment = false;
-                        this.checkoutStep = 'success';
-                        this.$nextTick(() => lucide.createIcons());
-                    }, 1800);
-                },
-
-                generateWhatsAppReceiptLink() {
-                    const text = `Hola *${this.companyName}*, adjunto comprobante de pago Webpay.\n\n` +
-                        `*Nº Orden:* ${this.simulatedOrderNumber}\n` +
-                        `*Cliente:* ${this.checkoutForm.name}\n` +
-                        `*RUT:* ${this.checkoutForm.rut}\n` +
-                        `*Monto Total:* ${this.formatCLP(this.cartTotal)}\n\n` +
-                        `Quedo a la espera de la confirmación de la visita técnica en faena.`;
-                    return `https://wa.me/${this.companyWhatsapp}?text=${encodeURIComponent(text)}`;
-                },
-
-                resetCartAndClose() {
-                    this.cart = [];
-                    this.isCheckoutOpen = false;
-                },
-
-                submitQuoteForm() {
-                    const text = `*SOLICITUD DE COTIZACIÓN RÁPIDA*\n\n` +
-                        `*Cliente:* ${this.quoteForm.name}\n` +
-                        `*Empresa:* ${this.quoteForm.company}\n` +
-                        `*Maquinaria:* ${this.quoteForm.machineryType}\n` +
-                        `*Ubicación:* ${this.quoteForm.location}\n` +
-                        `*Detalle:* ${this.quoteForm.message}`;
-                    window.open(`https://wa.me/${this.companyWhatsapp}?text=${encodeURIComponent(text)}`, '_blank');
-                }
+        function toggleCart(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            if (forceOpen) {
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.toggle('hidden');
             }
         }
+
+        function openCheckoutModal() {
+            toggleCart(false);
+            document.getElementById('webpay-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('webpay-modal').classList.add('hidden');
+        }
+
+        function processWebpayPayment(type) {
+            alert(`Simulación Webpay: Pago procesado con éxito con tarjeta de ${type}. ¡El técnico se contactará en breve!`);
+            cart = [];
+            updateCart();
+            closeCheckoutModal();
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert('¡Gracias por comunicarte con Air Lift! Hemos recibido tu solicitud y te llamaremos a la brevedad.');
+            e.target.reset();
+        }
+
+        // Inicializar al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderServices();
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
